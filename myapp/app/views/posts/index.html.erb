@@ -1,0 +1,135 @@
+<script>  
+    $(document).ready(function() {
+        $("#validateform").validate({
+            rules: {
+                "post[title]":{
+                    required: true,
+                    minlength: 3
+                },
+                "post[content]":{
+                    required: true,
+                    minlength: 5
+                }
+            }
+        });
+    });
+
+</script>
+
+<h3>Hello Rails</h3>
+
+<% if !user_signed_in? %>
+    <%= link_to('Login', new_user_session_path)%>
+<% end %>
+
+
+<% if user_signed_in? %>
+    <p><%=current_user.email %></p> 
+    <%= link_to('Logout', destroy_user_session_path, :method => :delete)%>
+
+        <% if current_user.has_role? :admin %>
+
+            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#approvalModal" >
+            Add new Post
+            </button>
+            <%= link_to('Un Approved', unapproved_posts_path)%>
+
+            <div class="reload">
+            <%= render partial: 'reload' %>
+            </div>
+
+
+<!-- Modal -->
+        <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4     class="modal-title">Approval</h4>
+         </div>
+        <div class="modal-body">
+        
+        <div class="row">
+        <div class="col-md-6">
+          <%= form_for(Post.new , html: { class: "form-signin", id:'validateform' , remote:true}) do |f| %>
+          <%= f.label 'title', 'Title', :class => 'control-label' %>
+          <%= f.text_field :title %>
+          </div>
+          </div>
+          
+          <div class="row">
+          <div class="col-md-6">
+    
+              <%= f.label 'content', 'Content', :class => 'control-label' %>
+              <%= f.text_field :content %>
+            </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+             <%= f.submit "Submit", class: "btn btn-success"%>
+         <% end %>
+         </div>
+       </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    
+
+    <% else %>
+
+        <% if current_user.has_role? :user %>
+
+            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#approvalModal" >
+            Add new Post
+            </button>
+
+            <div class="reload">
+            <%= render partial: 'reload' %>
+            </div>
+
+
+<!-- Modal -->
+        <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4     class="modal-title">Approval</h4>
+         </div>
+        <div class="modal-body">
+        <div class="row">
+        <div class="col-md-6">
+          <%= form_for(Post.new , html: { class: "form-signin", id:'validateform' , remote:true}) do |f| %>
+          <%= f.label 'title', 'Title', :class => 'control-label' %>
+          <%= f.text_field :title %>
+          </div>
+          </div>
+          
+          <div class="row">
+          <div class="col-md-6">
+    
+              <%= f.label 'content', 'Content', :class => 'control-label' %>
+              <%= f.text_field :content %>
+            </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+             <%= f.submit "Submit", class: "btn btn-success"%>
+         <% end %>
+         </div>
+       </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+
+
+
+
+    <% end %>
+    <% end %>
+    <% end %>
+
+
+
+
+

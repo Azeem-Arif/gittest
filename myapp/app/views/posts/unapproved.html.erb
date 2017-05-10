@@ -1,0 +1,20 @@
+<h3>Un Approved posts only</h3>
+
+<%	@unapproved.each do |po| %>
+
+<p><%= po.user.email %></p>
+
+<h2><%= link_to po.title, po %></h2>
+<p><%= po.content %></p>
+<p><%= po.vote %></p>
+<p><%= link_to "Vote", vote_post_path(po)%></p>
+
+<% if user_signed_in? %>
+	<% if current_user.has_role? :admin || current_user == po.user%>
+		<p><%= link_to "Edit", edit_post_path(po) %></p>
+		<p><%= link_to "Delete", po , :method=> :delete %></p>
+	<% end %>	
+<% end %>
+<%= link_to('View All Posts', viewAll_post_path(po.user_id))%>
+<hr>
+<% end %>

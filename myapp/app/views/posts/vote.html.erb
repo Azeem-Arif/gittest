@@ -1,0 +1,14 @@
+<h3>Vote</h3>
+
+<%=form_for @post,:url => {:action => "voteCast"} do |f| %>
+<p>
+	<%=f.label :title %>
+</p>
+<p>
+	<%=f.number_field :vote %>
+</p>
+<p>
+	<%=f.submit "Vote" %>
+</p>
+
+<% end %>

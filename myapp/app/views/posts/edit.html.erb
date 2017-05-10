@@ -1,0 +1,41 @@
+<script>
+    
+    $(document).ready(function() {
+        $("#validateit").validate({
+            rules: {
+                "post[title]":{
+                    required: true,
+                    minlength: 3
+                },
+                "post[content]":{
+                    required: true,
+                    minlength: 5
+                }
+            }
+        });
+    });
+
+</script>
+<h3>Edit</h3>
+
+<%= form_for @post , html: { id:'validateit'}  do |a| %>
+<p>
+	<%=a.label :title %>
+	<%=a.text_field :title %>
+</p>
+<p>
+	<%=a.label :content %>
+	<%=a.text_area :content %>
+</p>
+
+
+<p>	
+	<%= a.select :status, [['Active', true], ['Inactive', false]] %>
+
+</p>
+
+<p>
+	<%=a.submit "Update" %>
+</p>
+
+ <% end %>

@@ -1,0 +1,19 @@
+<h3>View All Posts</h3>
+
+<%	@post.each do |po| %>
+
+<h2><%= link_to po.title, po %></h2>
+<p><%= po.content %></p>
+<p><%= po.vote %></p>
+<p><%= link_to "Vote", vote_post_path(po)%></p>
+
+<% if user_signed_in? %>
+	<% if current_user == po.user%>
+
+<p><%= link_to "Edit", edit_post_path(po) %></p>
+<p><%= link_to "Delete", po , :method=> :delete %></p>
+	<% end %>
+<% end %>
+
+<hr>
+<% end %>
